@@ -24,7 +24,7 @@ echo "Installing necessary pip packages, from: $SCRIPT_DIR/requirements.txt"
 pip3 install \
     --no-cache-dir \
     -r $SCRIPT_DIR/requirements.txt \
-    --constraint "https://raw.githubusercontent.com/apache/airflow/constraints-2.6.3/constraints-3.10.txt"
+    --constraint "https://raw.githubusercontent.com/apache/airflow/constraints-2.7.3/constraints-3.10.txt"
 
 echo "Initializing postgres server (for airflow-backend), using docker compose, with: $SCRIPT_DIR/docker-compose.yaml"
 docker compose -f $SCRIPT_DIR/docker-compose.yaml up -d # initialize the postgres server
