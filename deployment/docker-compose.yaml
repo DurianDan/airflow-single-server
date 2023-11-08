@@ -1,0 +1,21 @@
+version: "3"
+
+services:
+  airflow-backend:
+    container_name: airflow-backend
+    restart: unless-stopped
+    image: postgres:15
+    env_file:
+      - ../envs/postgres.env
+    volumes:
+      - airflow-backend:/var/lib/postgresql/data
+    ports:
+      - "${POSTGRES_EXPOSE_PORT:-5432}:5432"
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "airflow"]
+      interval: 10s
+      retries: 5
+      start_period: 5s
+  
+volumes:
+  airflow-backend:

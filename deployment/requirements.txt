@@ -1,0 +1,7 @@
+apache-airflow[postgre]==2.6.3
+
+pandas==1.5.3
+pydantic==1.10.11 # define data schemas
+
+# required by the airflow image  
+psycopg2-binary==2.9.6
