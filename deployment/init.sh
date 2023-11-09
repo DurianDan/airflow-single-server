@@ -6,12 +6,13 @@ source $SCRIPT_DIR/../config/airflow.secret.env # load airflow secret variables
 
 AIRFLOW_HEALTH="$($SCRIPT_DIR/health.sh|grep -q "Failed to connect to")"
 if [ $? -eq 0 ]; then 
-    echo "airflow is not healthy"
-else
     echo "airflow is healthy"
     read -e -p "Do you want to kill running airflow webserver and scheduler, and re-initialize ? " choice
     [[ "$choice" == [Yy]* ]] && echo "Re-initilize airflow webserver and scheduler" || exit 0
     $SCRIPT_DIR/kill.sh
+else
+    echo "airflow is not healthy"
+fi
 
 echo "Installing/Upgrading linux dependencies..."
 sudo apt-get update
@@ -35,7 +36,7 @@ pip3 install \
 
 echo "Initializing postgres server (for airflow-backend), using docker compose, with: $SCRIPT_DIR/docker-compose.yaml"
 docker compose -f $SCRIPT_DIR/docker-compose.yaml up -d # initialize the postgres server
-$SCRIPT_DIR/wait-postgres-healthy.sh # wait for postgres server to be healthy
+$SCRIPT_DIR/wait-backend.sh # wait for postgres server to be healthy
 
 export AIRFLOW_HOME="${AIRFLOW_HOME:-$(pwd)/src}" 
 export AIRFLOW_CONFIG="${AIRFLOW_CONFIG:-$AIRFLOW_HOME/airflow.cfg}"

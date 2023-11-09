@@ -1,0 +1,3 @@
+src/logs/*/
+src/airflow-webserver.pid
+__pycache__

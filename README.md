@@ -4,7 +4,7 @@
 </div>
 
 # Airflow on a single server
-     Simplify deployment and management, for airflow 2.7.3 on a single server, with bash scripts
+     Simplify deployment and management, for airflow on a single server, with bash scripts
 # 1. Deployment.
 ## 1.1. Setup Environment.
 #### 1.1.1. Install Prerequisites.
@@ -19,7 +19,7 @@
      cd deployment
      chmod +x health.sh init.sh kill.sh run.sh wait-backend.sh
      ```
-#### 1.1.2. Add Your Secrets (User credential, secret keys, app ports, etc.)
+#### 1.1.2. Add Your Secrets (User credential, secret keys, app ports, airflow version etc.)
 - *You might want to take a look at `config/airflow.cfg`, it contains common configuration for airflow, Examples:
      ```yaml
      [core]
@@ -28,7 +28,7 @@
      default_ui_timezone = Asia/Ho_Chi_Minh #timezone of the web UI
      ```
 - You must setup every variables (secrets, admin user info, ports) in 2 files:
-     - `config/airflow.secret.env`. Check out the [docs][2], to know the function of each variable.
+     - `config/airflow.secret.env`. Setup Airflow user credential, exposed ports, and airflow version. Check out the [airflow docs about Configuration][2].
      - `config/postgres.env`. This will be used by `docker compose` to create a containerized **Postgres server**, to be used as airflow backend.
 
 ## 1.2. Initialize `airflow backend`
@@ -44,9 +44,13 @@ Execute `./deployment/run.sh`, to:
 - Run the `airflow webserver` in the backgound
 
 ## 2. Management
-- To **kill** airflow **scheduler** and **webserver**: `./deployment/kill.sh`
+- To **kill** airflow **scheduler** and **webserver** (without deleting data): `./deployment/kill.sh`
 - to **check health** of airflow (using airflow **exposed ports**, setup in `config/airflow.secret.env`): `./deployment/health.sh`
-
+- to fully remove the **postgres server** (airflow backend):
+     ```bash
+     cd deployment
+     docker compose down # remove the server
+     ```
 
 [1]:https://docs.docker.com/engine/install/
 [2]:https://airflow.apache.org/docs/apache-airflow/stable/configurations-ref.html
