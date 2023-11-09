@@ -1,7 +1,7 @@
-<p style="text-align: center">
-<img width="100" src="https://airflow.apache.org/docs/apache-airflow/1.10.11/_images/pin_large.png">
-<img width="100" src="https://raw.githubusercontent.com/odb/official-bash-logo/master/assets/Logos/Icons/PNG/512x512.png">
-</p>
+<div align="center">
+    <img width="100" src="https://airflow.apache.org/docs/apache-airflow/1.10.11/_images/pin_large.png" alt="Image 1">
+    <img width="100" src="https://raw.githubusercontent.com/odb/official-bash-logo/master/assets/Logos/Icons/PNG/512x512.png" alt="Image 2">
+</div>
 
 # Airflow on a single server
      Simplify deployment and management, for airflow 2.7.3 on a single server, with bash scripts
