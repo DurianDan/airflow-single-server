@@ -1,4 +1,6 @@
-apache-airflow[postgre]==2.7.3
+# the packages in this file, are constraints for python3.10 and airflow2.7.3, provided by Airflow
+# Check out the constraint file the link below:
+# https://raw.githubusercontent.com/apache/airflow/constraints-2.7.3/constraints-3.10.txt
 
 pandas==2.1.2
 pydantic==2.4.2 # define data schemas

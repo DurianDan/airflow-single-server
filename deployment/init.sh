@@ -21,10 +21,16 @@ sudo apt install python3-tk -y
 
 # python3 -m venv airflow
 echo "Installing necessary pip packages, from: $SCRIPT_DIR/requirements.txt"
+PYTHON_ENVIRONMENT_VERSION="$(python3 python_minor_version.py)"
+PIP_CONSTRAINT_FILE_URL="https://raw.githubusercontent.com/apache/airflow/constraints-$AIRFLOW_INSTALL_VERSION/constraints-$PYTHON_ENVIRONMENT_VERSION.txt"
+echo "> PYTHON_ENVIRONMENT_VERSION: $PYTHON_ENVIRONMENT_VERSION"
+echo "> AIRFLOW_INSTALL_VERSION: $AIRFLOW_INSTALL_VERSION"
+echo "==> PIP_CONSTRAINT_FILE_URL: $PIP_CONSTRAINT_FILE_URL"
+pip3 install --no-cache-dir apache-airflow[postgre]==$AIRFLOW_INSTALL_VERSION
 pip3 install \
     --no-cache-dir \
     -r $SCRIPT_DIR/requirements.txt \
-    --constraint "https://raw.githubusercontent.com/apache/airflow/constraints-2.7.3/constraints-3.10.txt"
+    --constraint $PIP_CONSTRAINT_FILE_URL
 
 echo "Initializing postgres server (for airflow-backend), using docker compose, with: $SCRIPT_DIR/docker-compose.yaml"
 docker compose -f $SCRIPT_DIR/docker-compose.yaml up -d # initialize the postgres server
