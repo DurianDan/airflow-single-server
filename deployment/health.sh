@@ -1,4 +1,4 @@
-#! usr/bin/bash
+#! /usr/bin/bash
 # get the absolute parent directory of this file
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 source $SCRIPT_DIR/../config/postgres.env
