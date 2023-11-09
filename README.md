@@ -8,7 +8,7 @@
 # 1. Deployment.
 ## 1.1. Setup Environment.
 #### 1.1.1. Install Prerequisites.
-- *Using a **python virtual environment** is **recommended**, you can use the commands below to quickly create and use an **python venv**
+- *Using a **python virtual environment** is **recommended**, you can use the commands below to quickly create and use a **python venv**
      ```bash
      python3 -m venv airflow-venv # create a virtual env called: airflow-venv
      source ./airflow-venv/bin/activate # activate the virtual environment.
