@@ -1,7 +1,7 @@
 # get the absolute parent directory of this file
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-source $SCRIPT_DIR/../envs/postgres.env # load envs needed for airfblow backend upgrade, from sqlite to postgresql 
-source $SCRIPT_DIR/../envs/airflow.static.env # load static airflow envs
+source $SCRIPT_DIR/../config/postgres.env # load env variables needed for airfblow backend upgrade
+source $SCRIPT_DIR/../config/airflow.static.env # load airflow secret variables
 
 AIRFLOW_HEALTH="$($SCRIPT_DIR/health.sh|grep -q "Failed to connect to")"
 if [ $? -eq 0 ]; then 

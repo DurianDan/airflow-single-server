@@ -1,7 +1,7 @@
 #! usr/bin/bash
 # get the absolute parent directory of this file
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-source $SCRIPT_DIR/../envs/postgres.env
+source $SCRIPT_DIR/../config/postgres.env
 
 check_scheduler="http://localhost:$AIRFLOW__SCHEDULER__SCHEDULER_HEALTH_CHECK_SERVER_PORT/health"
 check_webserver="http://localhost:$AIRFLOW__WEBSERVER__WEB_SERVER_PORT/health"

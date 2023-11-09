@@ -1,7 +1,7 @@
 # get the absolute parent directory of this file
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-source $SCRIPT_DIR/../envs/airflow.static.env
+source $SCRIPT_DIR/../config/airflow.secret.env
 
 echo "> Killing webserver"
 # fuser -k  "${AIRFLOW__WEBSERVER__WEB_SERVER_PORT:-8080}/tcp"
