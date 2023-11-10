@@ -10,7 +10,7 @@
 - If [docker][1], **python** and [pip][3] have been installed, you can deploy airflow inside any Ubuntu-based system (or WSL), with these command:
 ```bash
 cd deployment # go to the `deployment` folder
-chmod +x health.sh init.sh kill.sh run.sh wait-backend.sh # allow these scripts to be executed
+chmod +x health.sh init.sh kill.sh run.sh wait-backend.sh teardown.sh # allow these scripts to be executed
 ./init.sh # Initilize postgres server, and create default user "Admin"
 ./run.sh # Run and connect airflow to postgres server.
 ```
@@ -30,7 +30,7 @@ chmod +x health.sh init.sh kill.sh run.sh wait-backend.sh # allow these scripts 
 - Allow bash cripts to be executed, using `chmod`:
      ```bash
      cd deployment
-     chmod +x health.sh init.sh kill.sh run.sh wait-backend.sh
+     chmod +x health.sh init.sh kill.sh run.sh wait-backend.sh teardown.sh
      ```
 #### 1.1.2. Customize Airflow to your needs
 - `config/requirements.txt` is for you, to add **custom 📦 python packages** needed for your **DAG**
@@ -66,10 +66,10 @@ Execute `./deployment/run.sh`, to:
 ## 2. Management
 - To **kill** airflow **scheduler** and **webserver** (without deleting data): `./deployment/kill.sh`
 - to **check health** of airflow (using airflow **exposed ports**, setup in `config/airflow.secret.env`): `./deployment/health.sh`
-- to fully remove the **postgres server** (airflow backend):
+- To Fully remove **airflow-backend** (*container, images, mounted volume*):
      ```bash
      cd deployment
-     docker compose down # remove the server
+     ./teardown.sh # you will be prompted to delete the mounted volume and docker image postgres:15 
      ```
 
 [1]:https://docs.docker.com/engine/install/
