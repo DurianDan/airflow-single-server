@@ -2,6 +2,7 @@
 # get the absolute parent directory of this file
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 source $SCRIPT_DIR/../config/airflow.secret.env
+AIRFLOW_HOME="${AIRFLOW_HOME:-$SCRIPT_DIR/../src}" 
 
 CHECK_WEBSERVER="http://localhost:$AIRFLOW__WEBSERVER__WEB_SERVER_PORT/health"
 

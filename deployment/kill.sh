@@ -1,6 +1,7 @@
 #! /usr/bin/bash
 # get the absolute parent directory of this file
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+AIRFLOW_HOME="${AIRFLOW_HOME:-$SCRIPT_DIR/../src}" 
 
 source $SCRIPT_DIR/../config/airflow.secret.env
 

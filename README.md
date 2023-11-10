@@ -4,7 +4,20 @@
 </div>
 
 # Airflow on a single server
-     Simplify deployment and management, for airflow on a single server, with bash scripts
+     Simply deploy and manage airflow on a small server or personal computer, with bash scripts
+
+# 0. Quickstart
+- If [docker][1], **python** and [pip][3] have been installed, you can deploy airflow inside any Ubuntu-based system (or WSL), with these command:
+```bash
+cd deployment # go to the `deployment` folder
+chmod +x health.sh init.sh kill.sh run.sh wait-backend.sh # allow these scripts to be executed
+./init.sh # Initilize postgres server, and create default user "Admin"
+./run.sh # Run and connect airflow to postgres server.
+```
+- The installed **Airflow version** will be **2.7.3**, and be **hosted** at the port **8080**
+- To **login as admin user**, the user name is `"airflow"`, and password is `"airflow"`
+- Example **dags** and **plugins** have been created for you in the folder `src/`
+- For more **customization** and **management**, see the below steps.
 # 1. Deployment.
 ## 1.1. Setup Environment.
 #### 1.1.1. Install Prerequisites.
@@ -19,17 +32,24 @@
      cd deployment
      chmod +x health.sh init.sh kill.sh run.sh wait-backend.sh
      ```
-#### 1.1.2. Add Your Secrets (User credential, secret keys, app ports, airflow version etc.)
-- *You might want to take a look at `config/airflow.cfg`, it contains common configuration for airflow, Examples:
+#### 1.1.2. Customize Airflow to your needs
+- `config/requirements.txt` is for you, to add **custom 📦 python packages** needed for your **DAG**
+- `config/airflow.secret.env` is for:
+     - 🤓 User **login** credential
+     - 📚 Airflow versions.
+     - 📂 Path to your airflow **source folder** (that will hold *dags, plugins, logs, etc.*). default is `src/`
+     - 📂 Path to `airflow.cfg` folder. default is `config/airflow.cfg`
+     - 🔗 Airflow exposed **ports**
+     - 🔐 Your *Fernet Key* for airflow to **encrypt sensitive info**
+- `config/airflow.cfg` is for [common configurations][2] (without secrets) for airflow, Examples: 🌏timezone
      ```yaml
      [core]
      default_timezone = 	Asia/Ho_Chi_Minh # timezone of your apps
      [webserver]
      default_ui_timezone = Asia/Ho_Chi_Minh #timezone of the web UI
      ```
-- You must setup every variables (secrets, admin user info, ports) in 2 files:
-     - `config/airflow.secret.env`. Setup Airflow user credential, exposed ports, and airflow version. Check out the [airflow docs about Configuration][2].
-     - `config/postgres.env`. This will be used by `docker compose` to create a containerized **Postgres server**, to be used as airflow backend.
+- `config/postgres.env`, is for **postgresql** database credential, This will be used by `docker compose` to create a containerized **Postgres server**, to be used as airflow backend.
+- `config/docker-compose.yaml` is for building **postgres server container**.
 
 ## 1.2. Initialize `airflow backend`
 Execute the command: `./deployment/init.sh`, to perform these tasks:
@@ -54,3 +74,4 @@ Execute `./deployment/run.sh`, to:
 
 [1]:https://docs.docker.com/engine/install/
 [2]:https://airflow.apache.org/docs/apache-airflow/stable/configurations-ref.html
+[3]:https://pip.pypa.io/en/stable/installation/

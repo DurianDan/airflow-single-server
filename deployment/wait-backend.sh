@@ -11,7 +11,7 @@ MAX_RETRIES=60
 # Sleep duration between retries (adjust as needed)
 SLEEP_DURATION=5
 
-DOCKER_COMPOSE_FILE="$SCRIPT_DIR/docker-compose.yaml"
+DOCKER_COMPOSE_FILE="$SCRIPT_DIR/../config/docker-compose.yaml"
 
 # Command to check if the service is healthy
 HEALTH_CHECK_COMMAND="docker compose -f $DOCKER_COMPOSE_FILE ps -q $SERVICE_NAME | xargs docker inspect -f '{{.State.Health.Status}}'"
