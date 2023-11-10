@@ -9,7 +9,7 @@ docker rm airflow-backend
 $SCRIPT_DIR/kill.sh
 
 read -e -p "Do you want to delete airflow-backend (postgres mounted volume)(yY/N)? " ALLOW_DELETE_AIRFLOW_BACKEND
-[[ "$ALLOW_DELETE_AIRFLOW_BACKEND" == [Yy]* ]] && docker rmi postgres:15
+[[ "$ALLOW_DELETE_AIRFLOW_BACKEND" == [Yy]* ]] && docker volume rm config_airflow-backend
 
 read -e -p "Do you want to delete the postgres:15 docker image(yY/N)? " ALLOW_DELETE_POSTGRES_IMAGE
 [[ "$ALLOW_DELETE_POSTGRES_IMAGE" == [Yy]* ]] && docker rmi postgres:15

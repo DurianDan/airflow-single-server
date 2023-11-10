@@ -2,8 +2,9 @@
 # get the absolute parent directory of this file
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 PROJECT_DIR="$SCRIPT_DIR/.."
-source $PROJECT_DIR/config/postgres.env # load env variables needed for airfblow backend upgrade
-source $PROJECT_DIR/config/airflow.secret.env # load airflow secret variables
+export CONFIG_FOLDER_PATH="$PROJECT_DIR/config"
+source $CONFIG_FOLDER_PATH/postgres.env # load env variables needed for airfblow backend upgrade
+source $CONFIG_FOLDER_PATH/airflow.secret.env # load airflow secret variables
 
 #______________Check health of existing airflow app (if any) 
 AIRFLOW_HEALTH="$($SCRIPT_DIR/health.sh|grep -q "Failed to connect to")"
@@ -24,27 +25,28 @@ sudo apt-get install libpq-dev -y
 sudo apt install python3-tk -y
 
 # ______________Install pip dependencies
-PIP_REQUIREMENTS_PATH="$PROJECT_DIR/config/requirements.txt"
+PIP_REQUIREMENTS_PATH="$CONFIG_FOLDER_PATH/requirements.txt"
 PYTHON_ENVIRONMENT_VERSION="$(python3 python_minor_version.py)"
 PIP_CONSTRAINT_FILE_URL="https://raw.githubusercontent.com/apache/airflow/constraints-$AIRFLOW_INSTALL_VERSION/constraints-$PYTHON_ENVIRONMENT_VERSION.txt"
 echo "Installing necessary pip packages, from: $PIP_REQUIREMENTS_PATH"
 echo "> PYTHON_ENVIRONMENT_VERSION: $PYTHON_ENVIRONMENT_VERSION"
 echo "> AIRFLOW_INSTALL_VERSION: $AIRFLOW_INSTALL_VERSION"
 echo "==> PIP_CONSTRAINT_FILE_URL: $PIP_CONSTRAINT_FILE_URL"
-pip3 install --no-cache-dir apache-airflow[postgre]==$AIRFLOW_INSTALL_VERSION
+pip3 install --no-cache-dir apache-airflow[postgres]==$AIRFLOW_INSTALL_VERSION
 pip3 install \
     --no-cache-dir \
     -r $PIP_REQUIREMENTS_PATH \
     --constraint $PIP_CONSTRAINT_FILE_URL
 
 #______________Create and run postgres server
-echo "Initializing postgres server (for airflow-backend), using docker compose, with: $SCRIPT_DIR/docker-compose.yaml"
-docker compose -f $SCRIPT_DIR/docker-compose.yaml up -d # initialize the postgres server
+DOCKER_COMPOSE_FILE_PATH="$CONFIG_FOLDER_PATH/docker-compose.yaml"
+echo "Initializing postgres server (for airflow-backend), using docker compose, with: $DOCKER_COMPOSE_FILE_PATH"
+docker compose -f $DOCKER_COMPOSE_FILE_PATH up -d # initialize the postgres server
 $SCRIPT_DIR/wait-backend.sh # wait for postgres server to be healthy
 
 #______________Config Airflow to recognise postgres server as airflow-backend 
 export AIRFLOW_HOME="${AIRFLOW_HOME:-$PROJECT_DIR/src}" 
-export AIRFLOW_CONFIG="${AIRFLOW_CONFIG:-$PROJECT_DIR/config/airflow.cfg}"
+export AIRFLOW_CONFIG="${AIRFLOW_CONFIG:-$CONFIG_FOLDER_PATH/airflow.cfg}"
 export AIRFLOW__DATABASE__SQL_ALCHEMY_CONN="postgresql+psycopg2://${POSTGRES_USER}:${POSTGRES_PASSWORD}@0.0.0.0:${POSTGRES_EXPOSE_PORT}/${POSTGRES_DB}"
 echo ">> AIRFLOW_HOME: $AIRFLOW_HOME"
 echo ">> AIRFLOW_CONFIG: $AIRFLOW_CONFIG"

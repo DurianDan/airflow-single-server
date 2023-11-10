@@ -1,3 +1,5 @@
 src/logs/*/
 src/airflow-webserver.pid
+
+airflow-venv/
 __pycache__

@@ -6,7 +6,7 @@ services:
     restart: unless-stopped
     image: postgres:15
     env_file:
-      - ../config/postgres.env
+      - ./postgres.env
     volumes:
       - airflow-backend:/var/lib/postgresql/data
     ports:
