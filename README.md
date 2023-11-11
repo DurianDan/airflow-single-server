@@ -7,7 +7,7 @@
      Simply deploy and manage airflow on a small server or personal computer, with bash scripts
 
 # 0. Quickstart
-- If [docker][1], **python** and [pip][3] have been installed, you can deploy airflow inside any Ubuntu-based system (or WSL), with these command:
+- If [docker][1], **python** and [pip][3] have been installed, you can deploy airflow inside any Ubuntu-based system (or [Windows Subsystem for Linux][4]), with these command:
 ```bash
 cd deployment # go to the `deployment` folder
 chmod +x health.sh init.sh kill.sh run.sh wait-backend.sh teardown.sh # allow these scripts to be executed
@@ -75,3 +75,4 @@ Execute `./deployment/run.sh`, to:
 [1]:https://docs.docker.com/engine/install/
 [2]:https://airflow.apache.org/docs/apache-airflow/stable/configurations-ref.html
 [3]:https://pip.pypa.io/en/stable/installation/
+[4]:https://learn.microsoft.com/en-us/windows/wsl/install
